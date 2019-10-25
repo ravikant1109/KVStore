@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<KVCache>
+		<Set Id="0">
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+		</Set>
+		<Set Id="1">
+			<CacheEntry isReferenced="​​false"​isValid="​true">
+				<Key>1</Key>
+				<Value>value11_11_11</Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+		</Set>
+		<Set Id="2">
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key>12</Key>
+				<Value>value12_12</Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​true">
+				<Key>13</Key>
+				<Value>value13_13</Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​true">
+				<Key>14</Key>
+				<Value>value14_14</Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​true"​isValid="​true">
+				<Key>12</Key>
+				<Value>value12_12</Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+		</Set>
+		<Set Id="3">
+			<CacheEntry isReferenced="​​false"​isValid="​true">
+				<Key>110</Key>
+				<Value>value111_110</Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+			<CacheEntry isReferenced="​​false"​isValid="​false">
+				<Key></Key>
+				<Value></Value>
+			</CacheEntry>
+		</Set>
+	</KVCache>

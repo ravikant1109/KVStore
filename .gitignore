@@ -1,0 +1,5 @@
+*.gch
+*.out
+ClientData/clientResponses.txt
+obj/*
+checklist
