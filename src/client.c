@@ -10,17 +10,20 @@
 #include <sys/time.h>
 #include <unistd.h>
 #include "xmlParser.h"
+#include <arpa/inet.h>
 
+#define MAXKEYSIZE 260
+#define MAXVALUESIZE 262150
+#define MAXBUFSIZE 264000
 
-#define MAXBUF 300000
-
-char *toXML(char buffer[]){
+char *toXML(char buffer[])
+{
   char delim[] = " ";
   char msgType[10] = {0};
-  char key[260] = {0};
-  char value[256*1024 + 10] = {0};
+  char key[MAXKEYSIZE] = {0};
+  char value[MAXVALUESIZE] = {0};
   char *ptr = strtok(buffer, delim);
-  
+ 
 
   if(!strcmp(ptr, "PUT"))
   {
@@ -36,7 +39,7 @@ char *toXML(char buffer[]){
   }
   else
   {
-    printf("error in parsing");
+    // printf("INvalid");
     // TODO specify error types
   }
 
@@ -59,8 +62,8 @@ char *toXML(char buffer[]){
 //WRITING RESPONSE IN THE FILE
 void bufferDump(char resp[], FILE *optr)
 {
-  char buffer[300000]="";
-  char key[256]={0}, value[256*1024]={0}, msg[50]={0}, msgType[10]={0};
+  char buffer[MAXBUFSIZE]="";
+  char key[MAXKEYSIZE]={0}, value[MAXVALUESIZE]={0}, msg[50]={0}, msgType[10]={0};
   ParseXML(msg, msgType, key, value, resp);
 
   // strcat(buffer, msgType);
@@ -77,9 +80,7 @@ void bufferDump(char resp[], FILE *optr)
     strcat(buffer, msg);
   }
 
-  //strcat(buffer, "\0");
-
-  printf("%s\n",buffer);
+  printf("RESPONSE:\t%s\n",buffer);
   fprintf(optr,"%s\n", buffer);
 
 }
@@ -87,9 +88,10 @@ void bufferDump(char resp[], FILE *optr)
 void main(int argc, char *argv[])
 {
   
-  char msg[MAXBUF];
+  char msg[50];
   struct sockaddr_in addr = {0};
   int n, sockfd,num=1;
+   char resp[MAXBUFSIZE];
   // srandom(getpid());
   /* Create socket and connect to server */
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -104,18 +106,28 @@ void main(int argc, char *argv[])
   char server_ip[20] = "127.0.0.1";
   char inputfile[100] = "ClientData/batchRequest.txt";
   char outputfile[100] = "ClientData/batchResponse.txt";
+  char buffer[MAXBUFSIZE];
+  // printf("%d\n", argc);
+  if(argc > 1)
+  {
 
-  
-
-  if(argc >= 2)
+  if(argc == 3)
+  {
     strcpy(server_ip, argv[1]);
-  if(argc >= 3)
+//  if(argc >= 3)
     port = atoi(argv[2]);
-  if(argc >= 4)
-    strcpy(inputfile, argv[3]);
-  if(argc >= 5)
-    strcpy(outputfile, argv[4]);
+   // printf("yess\n");
+  }
+  else if(argc == 5)
+  {
+    // if(argc >= 4)
+      strcpy(inputfile, argv[3]);
+    // if(argc >= 5)
+      strcpy(outputfile, argv[4]);
+    }
+  }
   
+  // printf("server ip %s\n\n" , server_ip);
 
   addr.sin_family = AF_INET;
   addr.sin_port = htons(port);
@@ -128,49 +140,77 @@ void main(int argc, char *argv[])
   }
  
   printf("child {%d} connected \n", getpid());
-  FILE *iptr;
-  FILE *optr;
+ 
    
-  
-
-  if ((iptr = fopen(inputfile, "r")) == NULL)
+  if(argc != 3)
   {
-      printf("Error! opening file");
-      // Program exits if file pointer returns NULL.
-      exit(1);         
-  }
-  // sprintf(filename, "ClientData/clientResponses_%d.txt",getpid() );
-  if ((optr = fopen(outputfile, "a")) == NULL)
-  {
-      printf("Error! opening file");
-      // Program exits if file pointer returns NULL.
-      exit(1);         
-  }
-  char buffer[300000];
-  
-  while(fgets(buffer, 300000, iptr) != NULL){
-    char *buf = strtok(buffer, "\n");
-    printf("SENDING: %ld bytes\n", strlen(buf));
-    printf("===\n");
+    FILE *iptr;
+    FILE *optr;
+    if ((iptr = fopen(inputfile, "r")) == NULL)
+    {
+        printf("Error! opening file");
+        // Program exits if file pointer returns NULL.
+        exit(1);         
+    }
+    // sprintf(filename, "ClientData/clientResponses_%d.txt",getpid() );
+    if ((optr = fopen(outputfile, "a")) == NULL)
+    {
+        printf("Error! opening file");
+        // Program exits if file pointer returns NULL.
+        exit(1);         
+    }
     
-    buf = toXML(buf);
-    // puts(buf);
-    write(sockfd, buf, strlen(buf));
+    
+    while(fgets(buffer, MAXBUFSIZE, iptr) != NULL){
+      char *buf = strtok(buffer, "\n");
+      printf("SENDING:\t%s \n", buf);
+      
+      
+      buf = toXML(buf);
+      // puts(buf);
+      write(sockfd, buf, strlen(buf));
 
-    // sleep(2);
-    char resp[300000];
-    int len = read(sockfd, resp, 300000);
-    resp[len] = '\0';
-    // puts(resp);
+      // sleep(2);
+      
+      int len = read(sockfd, resp, MAXBUFSIZE);
+      resp[len] = '\0';
+      bufferDump(resp, optr);
+      printf("--------------------------------------\n");
+      // sleep(3);
+    }
 
-    bufferDump(resp, optr);
-
-    // sleep(3);
-    // fclose(optr);
+    fclose(iptr);
+    fclose(optr);
   }
-  
-
-  
-  fclose(iptr);
-  fclose(optr);
+  else
+  {
+    printf("Interactive mode: case sensitive command PUT, GET, DEL. Please enter \"exit\" to terminate\n");
+    while(1)
+    {
+      printf("IN:\t");
+      scanf("%[^\n]%*c", buffer); 
+      if(strcmp(buffer , "exit"))
+      {
+        char *buf = buffer;
+        buf = toXML(buf);
+        write(sockfd, buf, strlen(buf));
+        int len = read(sockfd, resp, MAXBUFSIZE);
+        resp[len] = '\0';
+        char key[MAXKEYSIZE]={0}, value[MAXVALUESIZE]={0}, msg[50]={0}, msgType[10]={0};
+        ParseXML(msg, msgType, key, value, resp);
+        if(!strcmp(msg, ""))
+        {
+          printf("OUT:\tkey: %s\tvalue: %s\n",key,value);
+        }
+        else
+        {
+          printf("OUT:\t%s\n",msg);
+        }
+      }
+      else
+      {
+        exit(0);
+      }
+    }
+  }
 }

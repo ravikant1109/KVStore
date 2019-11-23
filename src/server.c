@@ -17,12 +17,15 @@
 #define MAXVALUESIZE 262150
 #define MAXBUFSIZE 264000
 
-//#ifndef
-#define CACHEPRINT 1
-//ss#endif
+
+/* Coment this macro to stop generating CacheXML file */
+#define PRINTCACHE 1
+
+
 
 #define TRUE             1
 #define FALSE            0
+
 size_t num_threads = 4;
 
 
@@ -108,11 +111,11 @@ void main (int argc, char *argv[])
 
   fds[0].fd = listen_sd;
   fds[0].events = POLLIN;
-  timeout = (30 * 1000);
+  timeout = (300 * 100);
 
   do
   {
-    printf("Waiting on poll()...\n");
+    printf("---------------------------------------\n");
     rc = poll(fds, nfds, timeout);
     if (rc < 0)
     {
@@ -243,7 +246,7 @@ void main (int argc, char *argv[])
       close(fds[i].fd);
   }
 
-  #ifdef CACHEPRINT
+  #ifdef PRINTCACHE
   toXML("ServerData/CacheXML.xml");
   #endif
 }

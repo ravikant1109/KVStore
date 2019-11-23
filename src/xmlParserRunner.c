@@ -2,7 +2,7 @@
 
 void main()
 {
-	char key[100], value[100], msg[100], msgType[100];
+	char key[260], value[263000], msg[100], msgType[100];
 	char *resp = GenerateXML("", "", "thisismsg", "thisismsgtype");
 	printf("%s\n", resp);
 

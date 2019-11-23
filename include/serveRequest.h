@@ -82,13 +82,19 @@ void serveRequest(char buffer[], int *rc, int *fd)
         }
         response = GenerateXML("", "", msg, msgType);
       }
+      else
+      {
+        strcpy(msgType, "resp");
+        strcpy(msg, "XML Error: Received unparseable message");
+        response = GenerateXML("", "", msg, msgType);
+      }
 
     }
   	
   	
   	response[strlen(response)] = '\0';
 
-    printf("ThreadID : %ld\n\n", pthread_self());
+    // printf("ThreadID : %ld\n\n", pthread_self());
 
     *rc = send(*fd, response, strlen(response), 0);
 }

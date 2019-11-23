@@ -150,7 +150,7 @@ char * getData( char key[]){
 
 	int set = setValue(strlen(key));
 	int i;
-		pthread_mutex_lock(&(setLock[set].work_mutex));
+	pthread_mutex_lock(&(setLock[set].work_mutex));
 
 	for( i =0 ; i<nway ; i++)
 	{
@@ -160,6 +160,7 @@ char * getData( char key[]){
 			kvc[set][i].chance = 1;
 			kvc[set][i].isReferenced = 1;
 			pthread_mutex_unlock(&(setLock[set].work_mutex));
+			// printf("GOT IT");
 			return kvc[set][i].value;
 
 			
@@ -167,6 +168,7 @@ char * getData( char key[]){
 	}
 	// printf("\ncache miss");
 	char* value = restoreFromFile(key);
+	// printf("yes\n");
 	if(value)
 	{
 		findSlot(set , key , value);
