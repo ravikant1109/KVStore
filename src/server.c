@@ -111,7 +111,7 @@ void main (int argc, char *argv[])
 
   fds[0].fd = listen_sd;
   fds[0].events = POLLIN;
-  timeout = (300 * 100);
+  timeout = (50 * 100);
 
   do
   {

@@ -30,6 +30,7 @@ struct data **kvc;
 int *lastVisited;
 
 
+
 int setValue( int len )
 {
 	return len%sets;
@@ -73,7 +74,7 @@ int isPresent( int set , char key[]){
 	int i;
 	for( i =0 ; i<nway ; i++)
 	{
-		if(!strcmp(kvc[set][i].key , key) && kvc[set][i].chance != -1)
+		if(!strcmp(kvc[set][i].key , key) && kvc[set][i].isfree == 0 )
 		{
 
 			return i;
@@ -88,40 +89,47 @@ void findSlot(int set , char key[] , char value[])
 	// printf("(%d)\n", lastVisited[set] );
 	int i, j =0;
 	// int counter = 10 ;
-	for(i= ((lastVisited[set]+1)%nway); j<nway ; j++ )
-	{
-
-		i = ( i + j ) % nway;
-		if( kvc[set][i].chance == 0 )
-		{
-			lastVisited[set] = i ;
-			// kvc[set][i].chance = 0;
-			strcpy (kvc[set][i].key , key);
-			strcpy (kvc[set][i].value , value);
-			kvc[set][i].isfree = 0;
-			// printf("success %s \t %s\n", kvc[set][i].key , kvc[set][i].value );
-//			printf("%d\t%dsuccess\n",  );
-			return;
-		}
-
-
-	}
 	
 
 
+	for(i = 0 ; i < nway ; i++)
+	{
+		if(kvc[set][i].isfree == 1)
+		{
+			kvc[set][i].chance = 0;
+			strcpy (kvc[set][i].key , key);
+			strcpy (kvc[set][i].value , value);
+			kvc[set][i].isfree = 0;
+			return;
+		}
+	}
+
+	for(int t = ((lastVisited[set]+1)%nway); j<nway ; j++ )
+	{
+
+		i = ( t + j ) % nway;
+		if( kvc[set][i].chance == 0  )
+		{
+
+			lastVisited[set] = i ;
+			kvc[set][i].chance = 0;
+			strcpy (kvc[set][i].key , key);
+			strcpy (kvc[set][i].value , value);
+			kvc[set][i].isfree = 0;
+			return;
+		}
+		else{
+			kvc[set][i].chance = 0;	
+		}
+	}
 }
-
-
-
-
-
 
 void updateCache(int set ,int pos ,char value[])
 {
 	memset(kvc[set][pos].value , 0 , sizeof(kvc[set][pos].value));
 	strcpy (kvc[set][pos].value , value );
 	kvc[set][pos].isReferenced = 0;
-	//printf("updated %s \t %s\n", kvc[set][pos].key , kvc[set][pos].value );
+	kvc[set][pos].chance = 1;
 }
 
 
@@ -139,7 +147,6 @@ int putData(char key[] , char value[])
 
 		findSlot(set , key ,  value);
 	}
-
 	writeRecordToFile(key , value);
 
 	pthread_mutex_unlock(&(setLock[set].work_mutex));
@@ -154,16 +161,13 @@ char * getData( char key[]){
 
 	for( i =0 ; i<nway ; i++)
 	{
-		if(!strcmp(kvc[set][i].key , key) && kvc[set][i].chance != -1 && kvc[set][i].isfree ==0)
+		if(!strcmp(kvc[set][i].key , key)  && kvc[set][i].isfree ==0)
 		{
-			// printf("\nCache Hit");
 			kvc[set][i].chance = 1;
 			kvc[set][i].isReferenced = 1;
 			pthread_mutex_unlock(&(setLock[set].work_mutex));
 			// printf("GOT IT");
-			return kvc[set][i].value;
-
-			
+			return kvc[set][i].value;	
 		}
 	}
 	// printf("\ncache miss");

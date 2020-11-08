@@ -1,2 +1,2 @@
-int sets = 4;
-int nway = 8;
+int sets = 2;
+int nway = 3;

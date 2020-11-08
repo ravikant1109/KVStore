@@ -2,4 +2,6 @@
 *.out
 ClientData/clientResponses.txt
 obj/*
+build/*
+ServerData/*
 checklist
