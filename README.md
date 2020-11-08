@@ -9,7 +9,7 @@ Steps to execute:
 1. Run make command in parent directory.
 2. Go in build directory to run the executables.
 	a. Run server as: 1st way: "./server" ("It will take default values")
-			  2nd way: "./server" <port_number>  <number_of_sets>  <n-way_in_set_associative_cache>  <num_of_threads>
+			  2nd way: "./server" \<port_number\>  \<number_of_sets\>  <n-way_in_set_associative_cache>  <num_of_threads>
 			  
 	
 	b. Run client as: 1st way: Batch Mode:		"./client" ("It will take default values")
