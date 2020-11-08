@@ -3,5 +3,6 @@
 ClientData/clientResponses.txt
 obj/*
 build/*
-ServerData/*
+ServerData/*.csv
+ServerData/*.xml
 checklist
